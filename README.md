@@ -1,6 +1,6 @@
 # GitWorkflow
 
-TODO: Write a gem description
+  A git workflow tool
 
 ## Installation
 
@@ -20,7 +20,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+  $ wflow
+```
 
 ## Contributing
 
