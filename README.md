@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Usage
 
 ```bash
-  $ wflow
+  $ gflow
 ```
 
 ## Contributing
