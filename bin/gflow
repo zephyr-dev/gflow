@@ -1,4 +1,3 @@
-#! /usr/bin/env ruby
 require 'git_workflow'
 
-GitWorkflow::Workflow.new(ARGV).execute
+ GitWorkflow::Workflow.new(ARGV).execute

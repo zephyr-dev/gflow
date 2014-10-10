@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'git'
+gem 'colored'
 
 group :test do
   gem 'pry'

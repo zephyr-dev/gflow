@@ -6,32 +6,39 @@ describe GitWorkflow do
 
   before do
     reset_test_dir
-    create_and_checkout "integration"
-
-    create_and_checkout "tracks/track_name/main"
-    add_and_commit_file "main"
-
-    create "tracks/track_name/story2"
-    create "tracks/track_name/story1"
-    add_and_commit_file "story1"
-    checkout "tracks/track_name/story2"
-    add_and_commit_file "story2"
-
-    checkout "tracks/track_name/main"
-    add_and_commit_file "main2"
-
-    checkout "integration"
-    add_and_commit_file "integration2"
+    initialize_repo
   end
 
   def reset_test_dir
     puts `rm -rf #{TEST_DIR}`
     puts `mkdir #{TEST_DIR}`
+  end
+
+  def initialize_repo
     add_and_commit_file("integration.file")
+    create_and_checkout "integration"
+
+    create_and_checkout "track/track_name/main"
+    add_and_commit_file "main"
+
+    create_and_checkout "track/track_name/story1"
+    add_and_commit_file "story1"
+    checkout "track/track_name/main"
+
+    create_and_checkout "track/track_name/story2"
+    add_and_commit_file "story2"
+
+    checkout "track/track_name/main"
+    add_and_commit_file "main2"
+
+    checkout "integration"
+    add_and_commit_file "integration2"
+
+    checkout "track/track_name/story1"
   end
 
   def add_and_commit_file(name)
-    puts `touch #{TEST_DIR}/#{name}`
+    `touch #{TEST_DIR}/#{name}`
     repo.add(all: true)
     repo.commit("adds #{name}")
   end
@@ -52,7 +59,13 @@ describe GitWorkflow do
 
   it "works" do
     puts "******************"
-    puts `cd #{TEST_DIR}; gflow`
+    Bundler.with_clean_env do
+      puts `cd #{TEST_DIR}; gflow`
+    end
     puts "******************"
+
+    expect(repo.current_branch).to eq("track/track_name/story1")
+    expected_files = %w{integration.file integration2 main main2 story1}
+    expect(`ls #{TEST_DIR}`.split).to eq(expected_files)
   end
 end
